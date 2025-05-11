@@ -202,7 +202,7 @@
       // Call API to get bot's response
       async function callAPI(message) {
         const API_ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';
-        const API_KEY = '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'; // Use your API key here
+        const API_KEY = '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'; 
 
         try {
           const response = await fetch(API_ENDPOINT, {
@@ -210,7 +210,7 @@
             headers: {
               'Authorization': `Bearer ${API_KEY}`,
               'Content-Type': 'application/json',
-              'HTTP-Referer': 'https://sandeepp.in'
+              'HTTP-Referer': 'https://www.google.com/'
             },
             body: JSON.stringify({
               model: 'deepseek/deepseek-r1:free',
