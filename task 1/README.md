@@ -1,10 +1,12 @@
-# 🚀 MISA - Personal AI Assistant  
+# 🚀 MISA - CHATBOT WITH RULE-BASED
+RESPONSES  
 
 Welcome to **MISA (My Intelligent Smart Chatbot)** — your personal chatbot and virtual assistant project!
 
 ---
 
-## 🌡️ Temperature Converter GUI - Task 01  
+## 🌡️ CHATBOT WITH RULE-BASED
+RESPONSES - Task 01  
 
 **👨‍💻 Internship Project by:** *Sandeep Prajapati*  
 **🏢 Company:** *CodSoft*
@@ -58,3 +60,4 @@ I am currently enhancing **MISA AI Assistant** using **DeepSeek R1**, aiming to 
 
 Thank you for visiting!  
 **Keep Building. Keep Growing.** 🚀
+
