@@ -49,13 +49,6 @@ I am currently enhancing **MISA AI Assistant** using **DeepSeek R1**, aiming to 
 
 ---
 
-## 📷 Preview  
-
-**Meet MISA** — *Talk. Learn. Explore.*  
-*(Add screenshots or demo GIF here)*
-
----
-
 ## ⭐ Thank You  
 
 Thank you for visiting!  
