@@ -5,8 +5,7 @@ Welcome to **MISA (My Intelligent Smart Chatbot)** — your personal chatbot and
 
 ---
 
-## 🌡️ CHATBOT WITH RULE-BASED
-RESPONSES - Task 01  
+## 🌡️ CHATBOT WITH RULE-BASED RESPONSES - Task 01  
 
 **👨‍💻 Internship Project by:** *Sandeep Prajapati*  
 **🏢 Company:** *CodSoft*
