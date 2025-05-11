@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talk-2-MISA 👻</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #e3f2fd, #ffffff);
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .top-left {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      font-size: 30px;
+      font-weight: 600;
+      font-family: 'Segoe UI', 'Poppins', sans-serif;
+      color: #1b56fd;
+      background: linear-gradient(90deg, #1b56fd, #5393ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: slideIn 1.5s ease-out;
+      letter-spacing: 1px;
+      text-shadow: 0 3px 6px rgba(27, 86, 253, 0.2);
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      animation: floatCard 2s ease-in-out infinite alternate;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes floatCard {
+      from { transform: translateY(0); }
+      to { transform: translateY(-8px); }
+    }
+
+    .chat-scroll-area {
+      max-height: 250px;
+      overflow-y: auto;
+      background: #f9fbff;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+      margin-top: 15px;
+      text-align: left;
+      scroll-behavior: smooth;
+    }
+
+    .chat-bubble {
+      background-color: #e9f0ff;
+      padding: 12px 16px;
+      margin: 10px 0;
+      border-radius: 15px;
+      display: inline-block;
+      max-width: 90%;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .chat-bubble.user {
+      background-color: #d1eaff;
+      text-align: right;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+
+    .chat-bubble.bot {
+      background-color: #f1f8ff;
+      text-align: left;
+      align-self: flex-start;
+      margin-right: auto;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .typing-dots {
+      display: inline-block;
+      height: 8px;
+      width: 8px;
+      background-color: #1b56fd;
+      border-radius: 50%;
+      animation: blink 1.2s infinite ease-in-out both;
+      margin: 0 3px;
+    }
+
+    .typing-dots:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dots:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0; }
+      40% { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 15px;
+      }
+
+      .top-left {
+        font-size: 24px;
+        left: 15px;
+        top: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-left">Meet Misa -> Your Personal AI Assistant</div>
+
+  <div class="container">
+    <h2 style="color: #60B5FF; font-weight: bold; font-size: 24px; margin-bottom: 20px;">
+      How can I help you today?
+    </h2>
+
+    <div style="margin-bottom: 20px;">
+      <input 
+        type="text" 
+        class="form-control" 
+        id="userInput" 
+        placeholder="Ask anything you want to know..😉" 
+        style="border-radius: 30px; padding-left: 20px; font-size: 16px;"
+      />
+    </div>
+
+    <button 
+      id="askButton"
+      style="display: block; margin: 0 auto; padding: 10px 28px; border-radius: 30px; background-color: #1b56fd; border: none; color: white; font-weight: 600; font-size: 16px;">
+      Ask!
+    </button>
+
+    <div id="chatbox" class="chat-scroll-area">
+      <div id="response"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const elements = {
+        response: document.getElementById('response'),
+        input: document.getElementById('userInput'),
+        button: document.getElementById('askButton'),
+        chatbox: document.getElementById('chatbox')
+      };
+
+      const state = {
+        cache: new Map(),
+        lastRequestTime: 0,
+        typingTimeout: null
+      };
+
+      // Show typing dots animation
+      function showTyping() {
+        const typing = document.createElement('div');
+        typing.className = 'chat-bubble bot';
+        typing.id = 'typing';
+        typing.innerHTML = `
+          <span class="typing-dots"></span>
+          <span class="typing-dots"></span>
+          <span class="typing-dots"></span>
+        `;
+        elements.response.appendChild(typing);
+        scrollToBottom();
+      }
+
+      // Remove typing indicator
+      function removeTyping() {
+        const typing = document.getElementById('typing');
+        if (typing) typing.remove();
+      }
+
+      // Call API to get bot's response
+      async function callAPI(message) {
+        const API_ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';
+        const API_KEY = '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'; // Use your API key here
+
+        try {
+          const response = await fetch(API_ENDPOINT, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${API_KEY}`,
+              'Content-Type': 'application/json',
+              'HTTP-Referer': 'https://sandeepp.in'
+            },
+            body: JSON.stringify({
+              model: 'deepseek/deepseek-r1:free',
+              messages: [{ role: 'user', content: message }],
+              temperature: 0.7,
+              max_tokens: 500
+            })
+          });
+
+          if (!response.ok) throw new Error('Network response error');
+          const data = await response.json();
+          return data.choices?.[0]?.message?.content || 'No response';
+        } catch (error) {
+          console.error(error);
+          return 'Oops! Something went wrong.';
+        }
+      }
+
+      // Update the UI with user's message and bot's response
+      function updateUI(botReply, userMessage) {
+        removeTyping();
+        const userBubble = document.createElement('div');
+        userBubble.className = 'chat-bubble user';
+        userBubble.textContent = userMessage;
+
+        const botBubble = document.createElement('div');
+        botBubble.className = 'chat-bubble bot';
+        botBubble.innerHTML = marked.parse(botReply);
+
+        elements.response.appendChild(userBubble);
+        elements.response.appendChild(botBubble);
+        scrollToBottom();
+      }
+
+      // Scroll chat to the bottom to keep the latest messages in view
+      function scrollToBottom() {
+        elements.chatbox.scrollTop = elements.chatbox.scrollHeight;
+      }
+
+      // Handle the message sending process
+      async function sendMessage() {
+        const message = elements.input.value.trim();
+        if (!message || Date.now() - state.lastRequestTime < 2000) return;
+
+        elements.button.disabled = true;
+        elements.input.value = '';
+        showTyping();
+
+        try {
+          const reply = await callAPI(message);
+          state.cache.set(message, reply);
+          updateUI(reply, message);
+        } catch {
+          updateUI('Oops! Something went wrong.', message);
+        } finally {
+          elements.button.disabled = false;
+          elements.button.textContent = 'Ask!';
+          state.lastRequestTime = Date.now();
+        }
+      }
+
+      elements.input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') sendMessage();
+      });
+
+      elements.button.addEventListener('click', sendMessage);
+    })();
+  </script>
+</body>
+</html>
