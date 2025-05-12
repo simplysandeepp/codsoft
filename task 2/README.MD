@@ -1,6 +1,17 @@
-# Tic-Tac-Toe AI 🎯
+# Tic-Tac-Toe AI Game
 
-Welcome to the **Tic-Tac-Toe** project!  
+Welcome to the **Tic-Tac-Toe AI** project!  
+
+---
+
+##  Tic-Tac-Toe AI 🎯 - Task 02  
+
+**👨‍💻 Internship Project by:** *Sandeep Prajapati*  
+**🏢 Company:** *CodSoft*
+
+---
+
+Welcome to the **Tic-Tac-Toe AI Game**
 This is a simple yet powerful web-based Tic-Tac-Toe game where a human can play against an **unbeatable AI** developed using the **Minimax Algorithm with Alpha-Beta Pruning**.
 
 ---
@@ -30,15 +41,6 @@ The AI uses the **Minimax Algorithm** with **Alpha-Beta Pruning** to:
 
 ---
 
-## 📸 Screenshots
-
-| Human vs AI | AI Winning Example |
-| :---------: | :-----------------: |
-| ![Gameplay](your-screenshot-link-here) | ![AI Winning](your-screenshot-link-here) |
-
-> *(You can add your screenshots later by uploading them and putting the link above.)*
-
----
 
 ## 🧩 How to Play
 1. Start the game — Player **X** plays first.
@@ -49,4 +51,4 @@ The AI uses the **Minimax Algorithm** with **Alpha-Beta Pruning** to:
 
 ---
 
-## 📂 Folder Structure
+## Thankyou
