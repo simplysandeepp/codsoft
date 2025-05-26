@@ -40,5 +40,3 @@ I used the **Hugging Face Transformers** library along with **PIL** to load and 
 
 ---
 
-## 📂 File Structure  
-
