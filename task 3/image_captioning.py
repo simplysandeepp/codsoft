@@ -7,7 +7,7 @@ processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-larg
 model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
 
 # Load the Image
-image_path = './assets/image.jpg'
+image_path = "./task 3/assets/image4.jpg"
 raw_image = Image.open(image_path).convert('RGB')
 
 # Prepare the Inputs
